@@ -7,29 +7,21 @@ class DistanceConverter(tk.Tk):
   def __init__(self,*args,**kwargs):
     super().__init__(*args,**kwargs)
     self.title("John's Distance Converter")
-    self.geometry('190x110')
+    self.geometry('230x140')
     self.resizable(True,True)
     self.frames = dict()
 
     container = ttk.Frame(self)
-    container.grid(padx=60,pady=30,sticky='EW')
+    container.grid(sticky='WE')
 
-    metres_to_feet = MetresToFeet(container,self)
-    metres_to_feet.grid(row=0,column=0,sticky='NSEW')
+    for FrameClass in (MetresToFeet,FeetToMetres):
+      frame = FrameClass(container,self)
+      self.frames[FrameClass] = frame
+      frame.grid(row=0,column=0,sticky="NSEW")
 
-    feet_to_metres = FeetToMetres(container,self)
-    feet_to_metres.grid(row=0,column=0,sticky='NSEW')
+    self.show_frame(MetresToFeet)
 
-    # The Class itself Becomes Keys and its Objects are the Associated Values
-    self.frames[FeetToMetres] = feet_to_metres
-    self.frames[MetresToFeet] = metres_to_feet
-
-    # Decide Which Frame to Display First
-    self.show_frames(FeetToMetres)
-
-    # self.bind("<Return>",frame.calculate)
-    # self.bind('<KP_Enter>',frame.calculate)
-
+# Decide Which Frame to Display First
   def show_frame(self,container):
     frame = self.frames[container]
     frame.tkraise()
@@ -43,21 +35,23 @@ class MetresToFeet(ttk.Frame):
 
     # Label Widgets
     metres_label = ttk.Label(self,text='Metres:')
-    metres_label.grid(column=1,row=1,sticky='W',ipadx=5)
+    metres_label.grid(row=1,column=1,sticky='W',ipadx=5)
     feet_label = ttk.Label(self,text='Feet:')
-    feet_label.grid(column=1,row=2,sticky='W',ipadx=5)
+    feet_label.grid(row=2,column=1,columnspan=1,sticky='W',ipadx=5)
     feet_display = ttk.Label(self,textvariable=self.feet_value)
-    feet_display.grid(column=2,row=2,sticky='EW')
+    feet_display.grid(row=2,column=2,columnspan=1,sticky='WE')
 
     # Entry Widget
     metres_input = ttk.Entry(self,width=10,textvariable=self.metres_value)
-    metres_input.grid(column=2,row=1,sticky='EW')
+    metres_input.grid(row=1,column=2,sticky='WE')
     metres_input.focus()
 
     # Button Widgets
     calculate_button = ttk.Button(self,text='Calculate:',command=self.calculate)
-    calculate_button.grid(column=1,row=3,columnspan=2,sticky='EW')
-    switch_page_button = ttk.Button(self,text='Switch to Metres Calc',command=lambda: controller.show_frame(FeetToMetres))
+    calculate_button.grid(row=3,column=0,columnspan=2,sticky='WE')
+    switch_page_button = ttk.Button(self,text='Switch Calc',command=lambda: controller.show_frame(FeetToMetres))
+    switch_page_button.grid(row=4,column=0,columnspan=2,sticky='WE')
+
 
     for child in self.winfo_children():
         child.grid_configure(padx=5,pady=5)
@@ -78,21 +72,22 @@ class FeetToMetres(ttk.Frame):
 
     # Label Widgets
     feet_label = ttk.Label(self,text='Feet:')
-    feet_label.grid(column=1,row=1,sticky='W',ipadx=5)
+    feet_label.grid(row=1,column=1,sticky='W',ipadx=5)
     metres_label = ttk.Label(self,text='Metres:')
-    metres_label.grid(column=1,row=2,sticky='W',ipadx=5)
+    metres_label.grid(orw=2,column=1,sticky='W',ipadx=5)
     metres_display = ttk.Label(self,textvariable=self.metres_value)
-    metres_display.grid(column=2,row=2,sticky='EW')
+    metres_display.grid(orw=2,column=2,sticky='WE')
 
     # Entry Widgets
     feet_input = ttk.Entry(self,width=10,textvariable=self.feet_value)
-    feet_input.grid(column=2,row=1,sticky='EW')
+    feet_input.grid(row=1,column=2,sticky='WE')
     feet_input.focus()
 
     # Button Widgets
     calculate_button = ttk.Button(self,text='Calculate:',command=self.calculate)
-    calculate_button.grid(column=1,row=3,columnspan=2,sticky='EW')
-    switch_page_button = ttk.Button(self,text='Switch to Feet Calc',command=lambda: controller.show_frame(MetresToFeet))
+    calculate_button.grid(orw=3,column=0,columnspan=2,sticky='WE')
+    switch_page_button = ttk.Button(self,text='Switch Calc',command=lambda: controller.show_frame(MetresToFeet))
+    switch_page_button.grid(row=4,column=0,columnspan=2,sticky='WE')
 
     for child in self.winfo_children():
         child.grid_configure(padx=5,pady=5)
