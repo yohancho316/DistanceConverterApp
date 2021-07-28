@@ -13,11 +13,14 @@ class DistanceConverter(tk.Tk):
     container = ttk.Frame(self)
     container.grid(padx=60,pady=30,sticky='EW')
 
-    # frame = MetresToFeet(container)
-    # frame.grid(row=0,column=0,sticky='NSEW')
+    frame = MetresToFeet(container)
+    frame.grid(row=0,column=0,sticky='NSEW')
 
     frame = FeetToMetres(container)
     frame.grid(row=0,column=0,sticky='NSEW')
+
+    self.bind("<Return>",frame.calculate)
+    self.bind('<KP_Enter>',frame.calculate)
 
 # Meters to Feet Class
 class MetresToFeet(ttk.Frame):
@@ -34,12 +37,12 @@ class MetresToFeet(ttk.Frame):
       feet_label.grid(column=1,row=2,sticky='W',ipadx=5)
       feet_display = ttk.Label(self,textvariable=self.feet_value)
       feet_display.grid(column=2,row=2,sticky='EW')
-      calculate_button = ttk.Button(self,text='Calculate:',command=self.calculate_feet)
+      calculate_button = ttk.Button(self,text='Calculate:',command=self.calculate)
       calculate_button.grid(column=1,row=3,columnspan=2,sticky='EW')
       for child in self.winfo_children():
           child.grid_configure(padx=5,pady=5)
 
-  def calculate_feet(self,*args):
+  def calculate(self,*args):
     try:
       value = float(self.metres_value.get())
       self.feet_value.set('%.2f' % (value * 3.28084))
@@ -61,12 +64,12 @@ class FeetToMetres(ttk.Frame):
       metres_label.grid(column=1,row=2,sticky='W',ipadx=5)
       metres_display = ttk.Label(self,textvariable=self.metres_value)
       metres_display.grid(column=2,row=2,sticky='EW')
-      calculate_button = ttk.Button(self,text='Calculate:',command=self.calculate_metres)
+      calculate_button = ttk.Button(self,text='Calculate:',command=self.calculate)
       calculate_button.grid(column=1,row=3,columnspan=2,sticky='EW')
       for child in self.winfo_children():
           child.grid_configure(padx=5,pady=5)
 
-  def calculate_metres(self,*args):
+  def calculate(self,*args):
     try:
       value = float(self.feet_value.get())
       self.metres_value.set('%.2f' % (value * 3.28084))
