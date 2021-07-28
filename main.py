@@ -9,18 +9,28 @@ class DistanceConverter(tk.Tk):
     self.title("John's Distance Converter")
     self.geometry('190x110')
     self.resizable(True,True)
+    self.frames = dict()
 
     container = ttk.Frame(self)
     container.grid(padx=60,pady=30,sticky='EW')
 
-    frame = MetresToFeet(container)
-    frame.grid(row=0,column=0,sticky='NSEW')
+    metres_to_feet = MetresToFeet(container)
+    metres_to_feet.grid(row=0,column=0,sticky='NSEW')
 
-    frame = FeetToMetres(container)
-    frame.grid(row=0,column=0,sticky='NSEW')
+    feet_to_metres = FeetToMetres(container)
+    feet_to_metres.grid(row=0,column=0,sticky='NSEW')
 
-    self.bind("<Return>",frame.calculate)
-    self.bind('<KP_Enter>',frame.calculate)
+    self.frames[FeetToMetres] = feet_to_metres
+    self.frames[MetresToFeet] = metres_to_feet
+
+    self.show_frames(FeetToMetres)
+
+    # self.bind("<Return>",frame.calculate)
+    # self.bind('<KP_Enter>',frame.calculate)
+
+  def show_frame(self,container):
+    frame = self.frames[container]
+    frame.tkraise()
 
 # Meters to Feet Class
 class MetresToFeet(ttk.Frame):
