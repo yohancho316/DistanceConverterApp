@@ -13,7 +13,10 @@ class DistanceConverter(tk.Tk):
     container = ttk.Frame(self)
     container.grid(padx=60,pady=30,sticky='EW')
 
-    frame = MetresToFeet(container)
+    # frame = MetresToFeet(container)
+    # frame.grid(row=0,column=0,sticky='NSEW')
+
+    frame = FeetToMetres(container)
     frame.grid(row=0,column=0,sticky='NSEW')
 
 # Meters to Feet Class
@@ -66,7 +69,7 @@ class FeetToMetres(ttk.Frame):
   def calculate_metres(self,*args):
     try:
       value = float(self.feet_value.get())
-      self.feet_value.set('%.2f' % (value * 3.28084))
+      self.metres_value.set('%.2f' % (value * 3.28084))
     except ValueError:
       pass
 
