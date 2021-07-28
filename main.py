@@ -7,13 +7,14 @@ class DistanceConverter(tk.Tk):
   def __init__(self,*args,**kwargs):
     super().__init__(*args,**kwargs)
     self.title("John's Distance Converter")
-    self.geometry('230x140')
+    self.geometry('320x140')
     self.resizable(True,True)
     self.frames = dict()
 
     container = ttk.Frame(self)
-    container.grid(sticky='WE')
+    container.grid(sticky='EW')
 
+    # Create Dictionary of Frame KVP
     for FrameClass in (MetresToFeet,FeetToMetres):
       frame = FrameClass(container,self)
       self.frames[FrameClass] = frame
@@ -24,6 +25,8 @@ class DistanceConverter(tk.Tk):
 # Decide Which Frame to Display First
   def show_frame(self,container):
     frame = self.frames[container]
+    self.bind("<Return>",frame.calculate)
+    self.bind("<KP_Enter>",frame.calculate)
     frame.tkraise()
 
 # Meters to Feet Class
@@ -37,9 +40,9 @@ class MetresToFeet(ttk.Frame):
     metres_label = ttk.Label(self,text='Metres:')
     metres_label.grid(row=1,column=1,sticky='W',ipadx=5)
     feet_label = ttk.Label(self,text='Feet:')
-    feet_label.grid(row=2,column=1,columnspan=1,sticky='W',ipadx=5)
+    feet_label.grid(row=2,column=1,sticky='W',ipadx=5)
     feet_display = ttk.Label(self,textvariable=self.feet_value)
-    feet_display.grid(row=2,column=2,columnspan=1,sticky='WE')
+    feet_display.grid(row=2,column=2,sticky='WE')
 
     # Entry Widget
     metres_input = ttk.Entry(self,width=10,textvariable=self.metres_value)
@@ -49,9 +52,8 @@ class MetresToFeet(ttk.Frame):
     # Button Widgets
     calculate_button = ttk.Button(self,text='Calculate:',command=self.calculate)
     calculate_button.grid(row=3,column=0,columnspan=2,sticky='WE')
-    switch_page_button = ttk.Button(self,text='Switch Calc',command=lambda: controller.show_frame(FeetToMetres))
+    switch_page_button = ttk.Button(self,text='Switch Feet to Metres Calc',command=lambda: controller.show_frame(FeetToMetres))
     switch_page_button.grid(row=4,column=0,columnspan=2,sticky='WE')
-
 
     for child in self.winfo_children():
         child.grid_configure(padx=5,pady=5)
@@ -74,9 +76,9 @@ class FeetToMetres(ttk.Frame):
     feet_label = ttk.Label(self,text='Feet:')
     feet_label.grid(row=1,column=1,sticky='W',ipadx=5)
     metres_label = ttk.Label(self,text='Metres:')
-    metres_label.grid(orw=2,column=1,sticky='W',ipadx=5)
+    metres_label.grid(row=2,column=1,sticky='W',ipadx=5)
     metres_display = ttk.Label(self,textvariable=self.metres_value)
-    metres_display.grid(orw=2,column=2,sticky='WE')
+    metres_display.grid(row=2,column=2,sticky='WE')
 
     # Entry Widgets
     feet_input = ttk.Entry(self,width=10,textvariable=self.feet_value)
@@ -85,8 +87,8 @@ class FeetToMetres(ttk.Frame):
 
     # Button Widgets
     calculate_button = ttk.Button(self,text='Calculate:',command=self.calculate)
-    calculate_button.grid(orw=3,column=0,columnspan=2,sticky='WE')
-    switch_page_button = ttk.Button(self,text='Switch Calc',command=lambda: controller.show_frame(MetresToFeet))
+    calculate_button.grid(row=3,column=0,columnspan=2,sticky='WE')
+    switch_page_button = ttk.Button(self,text='Switch Metres to Feet Calc',command=lambda: controller.show_frame(MetresToFeet))
     switch_page_button.grid(row=4,column=0,columnspan=2,sticky='WE')
 
     for child in self.winfo_children():
