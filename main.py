@@ -7,12 +7,16 @@ class DistanceConverter(tk.Tk):
   def __init__(self,*args,**kwargs):
     super().__init__(*args,**kwargs)
     self.title("John's Distance Converter")
-    self.geometry('320x140')
+    self.geometry('314x160')
     self.resizable(True,True)
     self.frames = dict()
 
     container = ttk.Frame(self)
     container.grid(sticky='EW')
+
+    # Apply Styling to the container Frame Widget
+    style = ttk.Style(container)
+    style.theme_use('classic')
 
     # Create Dictionary of Frame KVP
     for FrameClass in (MetresToFeet,FeetToMetres):
