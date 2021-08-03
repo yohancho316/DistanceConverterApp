@@ -14,7 +14,7 @@ This is a distance converter application written in Python with a GUI frontend d
 ```
 Click on the Image to Watch My Project in Action on YouTube
 ```
-[![Watch my Project in Action on YouTube](.Distance_Conv_App_Demo.gif)](https://www.youtube.com/watch?v=jEK_BHXmWkg)
+[![Watch my Project in Action on YouTube](./Distance_Conv_App_Demo.gif)](https://www.youtube.com/watch?v=jEK_BHXmWkg)
 
 ## Getting Started
 
